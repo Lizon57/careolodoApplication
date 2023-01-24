@@ -1,14 +1,14 @@
-// import { useNavigate } from "react-router"
+import { useNavigate } from "react-router"
 import styled from "styled-components"
 import { devicesMinWidth } from "../../styles/media-queries/devices"
 
 
 export function Button({ text, isSecondary, navigateTo, onClick }: Props) {
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
 
     const handleOnClick = () => {
         onClick && onClick()
-        // navigateTo && navigate(navigateTo)
+        navigateTo && navigate(navigateTo)
     }
 
     return (

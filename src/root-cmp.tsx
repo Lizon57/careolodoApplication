@@ -11,11 +11,14 @@ import { StyledAppLayout } from './cmps/layout/styled-app-layout'
 import { AppHeader } from './cmps/layout/app-header'
 import { AppFooter } from './cmps/layout/app-footer'
 
+import { withAuthenticator } from '@aws-amplify/ui-react'
+import '@aws-amplify/ui-react/styles.css'
+
 
 
 const initialState = { name: '', description: '' }
 
-function App() {
+function App({ user }: any) {
   const [formState, setFormState] = useState(initialState)
   const [todos, setTodos] = useState<Todo[]>([])
 
@@ -23,9 +26,11 @@ function App() {
     fetchTodos()
   }, [])
 
+
   const setInput = (key: string, value: string) => {
     setFormState({ ...formState, [key]: value })
   }
+
 
   const fetchTodos = async () => {
     try {
@@ -34,6 +39,7 @@ function App() {
       setTodos(items)
     } catch (err) { console.log('error fetching todos') }
   }
+
 
   const addTodo = async () => {
     try {
@@ -47,12 +53,14 @@ function App() {
     }
   }
 
+
   const onRemoveTodo = async (id: string | undefined) => {
     if (!id) return
     await API.graphql({ query: deleteTodo, variables: { input: { id } } })
     const newTodos = todos.filter(todo => todo.id !== id)
     setTodos(newTodos)
   }
+
 
   return (
     <Router>
@@ -82,4 +90,4 @@ function App() {
 }
 
 
-export default App
+export default withAuthenticator(App)
