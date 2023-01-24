@@ -4,7 +4,7 @@ export const flexColumnMixin = (gap?: string) => {
         flex-direction: column;
         ${gap ? `gap: ${gap};` : ''}
         `
-    }
+}
 
 export const flexColumnCenterMixin = (gap?: string) => {
     return `

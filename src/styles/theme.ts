@@ -21,6 +21,7 @@ export const theme = {
     fontSizeSmallRem: '0.9rem',
     fontSizexSmallRem: '0.8rem',
     fontSizexxSmallRem: '0.7rem',
+    fontSizexxxSmallRem: '0.5rem',
 
     spaceBlockxxxxLargeRem: '2rem',
     spaceBlockxxxLargeRem: '1.5rem',

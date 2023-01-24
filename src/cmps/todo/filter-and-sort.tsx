@@ -45,7 +45,7 @@ const StyledCollectionsFilterAndSort = styled.section`
             padding: ${({ theme }) => theme.spaceBlockRegularRem} ${({ theme }) => theme.spaceInlinexxxLargeRem} ${({ theme }) => theme.spaceBlockRegularRem};
         }
 
-        input, select{
+        input, select {
             width: 100%;
 
             @media ${devicesMinWidth.tablet} {

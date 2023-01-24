@@ -21,16 +21,16 @@ export function AppFooter() {
 const StyledAppFooter = styled.footer`
     ${appGridMixin()}
 
-    background-color: #f4f0ee;
-    font-family: roboto;
-    padding: .5rem;
+    background-color: ${({ theme }) => theme.whiteLighter};
+    font-family: ${({ theme }) => theme.typographyEmphasis};
+    padding: ${({ theme }) => theme.spaceBlockxxxSmallRem};
 
     div.content-container {
         grid-column: 2/3;
 
         ${flexColumnMixin()}
         align-items: center;
-        gap: .5rem;
+        gap: ${({ theme }) => theme.spaceBlockxxxSmallRem};
 
         img {
             display: block;
@@ -41,7 +41,7 @@ const StyledAppFooter = styled.footer`
 
         span.rights-reserved {
             user-select: none;
-            font-size: .8rem;
+            font-size: ${({ theme }) => theme.fontSizexSmallRem};
         }
     }
 `

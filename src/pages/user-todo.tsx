@@ -143,7 +143,7 @@ const StyledUserTodo = styled.main`
         font-family: ${({ theme }) => theme.typographyEmphasis};
     }
     
-    div.no-todos-indicator{
+    div.no-todos-indicator {
         font-size: ${({ theme }) => theme.fontSizexxxLargeRem};
         font-family: ${({ theme }) => theme.typographyEmphasis};
     }

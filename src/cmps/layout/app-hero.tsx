@@ -19,7 +19,7 @@ export function AppHero() {
 
                 <div className="user-message">
                     <p>We are glad and happy to see you again here on Careolodo.</p>
-                    <p>Life on the 21<sup>th</sup> century can be pretty harsh. You just MUST take care of a lot of things! and this is just why you come back here, isn't you?</p>
+                    <p className="additional-content">Life on the 21<sup>th</sup> century can be pretty harsh. You just MUST take care of a lot of things! and this is just why you come back here, isn't you?</p>
                     <p>With Careolodo you can manage you'r todo list on the easiest way.</p>
                     <p>So what are you waiting up for?</p>
                 </div>
@@ -32,7 +32,7 @@ export function AppHero() {
 
 
 const StyledAppHero = styled.section`
-    div.logged-user-hero-container{
+    div.logged-user-hero-container {
         ${positionCenterMixin()}
 
         ${flexColumnMixin('1rem')}
@@ -49,21 +49,25 @@ const StyledAppHero = styled.section`
             font-size: ${({ theme }) => theme.fontSizeLargeRem};
             max-width: 30rem;
         }
-
+        
         h2 {
             text-align: center;
         }
-
+        
         p {
             margin: 0;
+            
+            @media ${devicesMinWidth.tablet} {
+                display: block;
+            }
+
+            &.additional-content {
+                display: none;
+            }
         }
 
         p:not(:last-of-type) {
             margin: 0 0 1rem;
         }
     }
-
-    /* div:first-of-type:not(.logged-user-hero-container) {
-        color: ${({ theme }) => theme.whiteLightest};
-    } */
 `

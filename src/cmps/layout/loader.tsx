@@ -21,7 +21,7 @@ const StyledLoader = styled.div`
             transform: rotate(0deg);
         }
         
-        to{
+        to {
             transform: rotate(360deg);
         }
     }

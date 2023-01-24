@@ -74,7 +74,7 @@ const StyledUserDropdown = styled.span`
 
     div.dropdown-content {
         ${flexColumnMixin()}
-        gap: .5rem;
+        gap: ${({ theme }) => theme.spaceBlockxxxSmallRem};
 
         position: absolute;
         top: calc(100% + 1rem);

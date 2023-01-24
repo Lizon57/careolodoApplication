@@ -41,14 +41,14 @@ const StyledAppHeader = styled.nav`
 
     img.logo {
         height: 1rem;
-        margin-inline-end: 1rem;
+        margin-inline-end: ${({ theme }) => theme.spaceInlineRegularRem};
         
         @media ${devicesMinWidth.mobile} {
             height: 1.5rem;
         }
     }
 
-    img.logo-symbol{
+    img.logo-symbol {
         display: none;
         
         @media ${devicesMinWidth.tablet} {
@@ -60,11 +60,11 @@ const StyledAppHeader = styled.nav`
         display: block;
 
         color: ${({ theme }) => theme.blueDarker};
-        font-size: 12px;
-        font-family: roboto;
+        font-size: ${({ theme }) => theme.fontSizexSmallRem};
+        font-family: ${({ theme }) => theme.typographyEmphasis};
     }
     
-    div.nav-links{
+    div.nav-links {
         ${flexAlignCenterMixin('10px')}
         
         @media ${devicesMinWidth.tablet} {
