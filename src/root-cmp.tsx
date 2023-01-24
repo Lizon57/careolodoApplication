@@ -17,6 +17,8 @@ import { AppHeader } from './cmps/layout/app-header'
 import { AppFooter } from './cmps/layout/app-footer'
 
 import '@aws-amplify/ui-react/styles.css'
+import { ThemeProvider } from 'styled-components'
+import { theme } from './styles/theme'
 
 
 
@@ -79,27 +81,29 @@ function App({ user }: any) {
 
   return (
     <Router>
-      <StyledAppLayout>
-        <AppHeader />
-        <div className="todo-cli-container">
-          <h2>Amplify Todos</h2>
-          <input
-            onChange={event => setInput('name', event.target.value)}
-            value={formState.name}
-            placeholder="Name"
-          />
-          <input
-            onChange={event => setInput('description', event.target.value)}
-            value={formState.description}
-            placeholder="Description"
-          />
-          <button onClick={addTodo}>Create Todo</button>
-          {todos.map(todo => <div key={todo.id || Math.random()}>
-            {todo.name} <button onClick={() => onRemoveTodo(todo.id)}>X</button>
-          </div>)}
-        </div>
-        <AppFooter />
-      </StyledAppLayout>
+      <ThemeProvider theme={theme}>
+        <StyledAppLayout>
+          <AppHeader />
+          <div className="todo-cli-container">
+            <h2>Amplify Todos</h2>
+            <input
+              onChange={event => setInput('name', event.target.value)}
+              value={formState.name}
+              placeholder="Name"
+            />
+            <input
+              onChange={event => setInput('description', event.target.value)}
+              value={formState.description}
+              placeholder="Description"
+            />
+            <button onClick={addTodo}>Create Todo</button>
+            {todos.map(todo => <div key={todo.id || Math.random()}>
+              {todo.name} <button onClick={() => onRemoveTodo(todo.id)}>X</button>
+            </div>)}
+          </div>
+          <AppFooter />
+        </StyledAppLayout>
+      </ThemeProvider>
     </Router>
   )
 }

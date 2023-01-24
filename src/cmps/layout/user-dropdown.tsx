@@ -7,7 +7,6 @@ import { useOnclickOutside } from "../../hooks/use-onclick-outside"
 import { useSelector } from "react-redux"
 import { RootState } from "../../store/store"
 import { signoutUser } from "../../store/actions/user-action"
-import { User } from "../../models/user/user"
 import { Button } from "../ui/button"
 import { flexColumnMixin } from "../../styles/mixins/flex-mixins"
 import { takesContainerSizeMixin } from "../../styles/mixins/size-mixins"
@@ -62,8 +61,8 @@ const StyledUserDropdown = styled.span`
 
         svg {
             border-radius: 50vw;
-            background-color: #193159;
-            color: #fafafa;
+            background-color: ${({ theme }) => theme.bluePrimary};
+            color: ${({ theme }) => theme.whiteLightest};
             ${takesContainerSizeMixin()}
         }
         
@@ -83,7 +82,7 @@ const StyledUserDropdown = styled.span`
 
         box-shadow: rgba(31, 35, 38, 0.2) 0px 4px 24px 0px, rgba(31, 35, 38, 0.12) 0px 1px 1px -1px, rgba(31, 35, 38, 0.14) 0px 1px 2px 0px;
         border-radius: 6px;
-        background-color: #fafafa;
+        background-color: ${({ theme }) => theme.whiteLightest};
         min-width: 10rem;
         width: max-content;
         height: 0;
@@ -95,24 +94,17 @@ const StyledUserDropdown = styled.span`
         
         h3 {
             border-block-end: 1px solid rgba(31, 35, 38, 0.2);
-            font-size: 1.1rem;
-            font-family: roboto;
+            font-size: ${({ theme }) => theme.fontSizeLargeRem};
+            font-family: ${({ theme }) => theme.typographyEmphasis};
             text-align: center;
-            margin: 0;
-            padding: .5rem;
+            padding: ${({ theme }) => theme.spaceBlockxxxSmallRem};
         }
         
         a, button {
-            margin: .5rem;
+            margin: ${({ theme }) => theme.spaceBlockxxxSmallRem};
         }
     }
 `
-
-
-type Props = {
-    user: User,
-    signOut: any
-}
 
 
 export default withAuthenticator(UserDropdown)

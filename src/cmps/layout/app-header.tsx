@@ -7,6 +7,7 @@ import { Button } from "../ui/button"
 import UserDropdown from "./user-dropdown"
 import { flexAlignCenterMixin } from "../../styles/mixins/flex-mixins"
 import { devicesMinWidth } from "../../styles/media-queries/devices"
+import { transitionRegular } from "../../styles/mixins/transition-mixins"
 
 
 export function AppHeader() {
@@ -36,7 +37,7 @@ const StyledAppHeader = styled.nav`
     ${flexAlignCenterMixin()}
     justify-content: space-between;
 
-    padding-block: 1rem;
+    padding-block: ${({ theme }) => theme.spaceBlockRegularRem};
 
     img.logo {
         height: 1rem;
@@ -58,7 +59,7 @@ const StyledAppHeader = styled.nav`
     span.app-description {
         display: block;
 
-        color: #193159;
+        color: ${({ theme }) => theme.blueDarker};
         font-size: 12px;
         font-family: roboto;
     }
@@ -74,10 +75,10 @@ const StyledAppHeader = styled.nav`
             position: relative;
             
             opacity: .6;
-            color: #193159;
-            font-family: roboto;
+            color: ${({ theme }) => theme.bluePrimary};
+            font-family: ${({ theme }) => theme.typographyEmphasis};
             font-weight: bold;
-            transition: all ease-in-out .3s;
+            ${transitionRegular()}
             
             &:hover {
                 opacity: 1;
@@ -85,7 +86,7 @@ const StyledAppHeader = styled.nav`
             
             &.active {
                 opacity: 1;
-                color: #6236e8;
+                color: ${({ theme }) => theme.purplePrimary};
                 
                 &:after {
                     content: "";
@@ -102,7 +103,7 @@ const StyledAppHeader = styled.nav`
             }
 
             &:not(.active) {
-                color: #1b335b;
+                color: ${({ theme }) => theme.bluePrimary};
             }
         }
     }

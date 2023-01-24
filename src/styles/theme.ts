@@ -5,7 +5,9 @@ export const theme = {
     bluePrimary: '#1b335b',
     blueLighter: '#2f579d',
     redPrimary: '#8b0000',
+    whiteLightest: '#fafafa',
 
+    fontSizeLargeRem: '1.1rem',
     fontSizeRegRem: '1rem',
     fontSizeSmallRem: '0.9rem',
     fontSizexSmallRem: '0.8rem',
@@ -17,6 +19,12 @@ export const theme = {
     spaceBlockxSmallRem: '0.7rem',
     spaceBlockxxSmallRem: '0.6rem',
     spaceBlockxxxSmallRem: '0.5rem',
+
+    spaceInlineRegularRem: '1rem',
+    spaceInlineSmallRem: '0.8rem',
+    spaceInlinexSmallRem: '0.7rem',
+    spaceInlinexxSmallRem: '0.6rem',
+    spaceInlinexxxSmallRem: '0.5rem',
 
     typographyEmphasis: 'roboto',
 }
