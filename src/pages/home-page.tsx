@@ -11,7 +11,7 @@ export function HomePage() {
     )
 }
 
-const StyledHomePage = styled.div`
+const StyledHomePage = styled.main`
     grid-column: 2/3;
     background-image: url(${downWave});
     background-size: cover;

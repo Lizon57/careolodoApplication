@@ -11,6 +11,7 @@ import '@aws-amplify/ui-react/styles.css'
 import { ThemeProvider } from 'styled-components'
 import { theme } from './styles/theme'
 import { routes } from './routes/routes'
+import { UserMessage } from './cmps/layout/user-message'
 
 
 function App({ user }: any) {
@@ -30,6 +31,8 @@ function App({ user }: any) {
   return (
     <Router>
       <ThemeProvider theme={theme}>
+        <UserMessage />
+
         <StyledAppLayout>
           <AppHeader />
 

@@ -4,6 +4,7 @@ export const theme = {
     blueDarker: '#172c4f',
     bluePrimary: '#1b335b',
     blueLighter: '#2f579d',
+    greenPrimary: '#006400',
     redPrimary: '#8b0000',
     whiteLighter: '#f4f0ee',
     whiteLightest: '#fafafa',
@@ -19,6 +20,7 @@ export const theme = {
     fontSizexxSmallRem: '0.7rem',
     fontSizexxxSmallRem: '0.6rem',
 
+    spaceBlockxxxxLargeRem: '2rem',
     spaceBlockxxxLargeRem: '1.5rem',
     spaceBlockxLargeRem: '1.3rem',
     spaceBlockLargeRem: '1.2rem',
