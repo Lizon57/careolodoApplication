@@ -67,7 +67,7 @@ function TodoAdd({ onTodoAdd }: Props) {
                         ? <FiCheckSquare size={20} title="Complete todo" />
                         : <FiSquare size={20} title="Yet to complete todo" />
                     }
-                    <span>(Add as {todo.isDone ? 'done' : 'undone'} todo)</span>
+                    <span className="indicator">(Add as {todo.isDone ? 'done' : 'not done'} todo)</span>
                 </span>
 
                 <div className="todo-data-container">
@@ -98,11 +98,17 @@ const StyledTodoAdd = styled.div`
         }
     }
 
-    span.todo-state-indicator{
+    span.todo-state-indicator {
         ${flexAlignCenterMixin('0.5rem')}
         color: ${({ theme }) => theme.blackPrimary};
         font-size: ${({ theme }) => theme.fontSizexSmallRem};
         font-family: ${({ theme }) => theme.typographyEmphasis};
+
+        span.indicator {
+            @media ${devicesMinWidth.tablet} {
+                display: none;
+            }
+        }
     }
     
     div.todo-data-container {

@@ -122,6 +122,7 @@ const StyledTodoPreview = styled.article`
         grid-row: 2/3;
         justify-self: end;
 
+        ${flexAlignCenterMixin()}
         cursor: pointer;
         border: none;
         background-color: transparent;

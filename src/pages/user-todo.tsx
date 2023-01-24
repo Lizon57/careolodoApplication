@@ -1,19 +1,24 @@
 import { useEffect, useState } from 'react'
+import { useDebouncedCallback } from 'use-debounce'
 import styled from 'styled-components'
 import { Todo } from '../models/todo/todo'
+import { Sort } from '../models/todo/sort'
 import { showUserMsg } from '../services/event-bus-service'
 import { TodoPreview } from '../cmps/todo/todo-preview'
 import { ErrorMessage } from '../cmps/layout/error-message'
 import { Loader } from '../cmps/layout/loader'
 import TodoAdd from '../cmps/todo/todo-add'
-import { flexColumnMixin } from '../styles/mixins/flex-mixins'
 import { MainTitle } from '../cmps/ui/main-title'
 import { todoService } from '../services/todo-service'
+import { FilterAndSort } from '../cmps/todo/filter-and-sort'
+import { flexColumnMixin } from '../styles/mixins/flex-mixins'
 
 
 
 export function UserTodo() {
     const [todos, setTodos] = useState<Todo[]>([])
+    const [filterText, setFilterText] = useState<string>()
+    const [sort, setSort] = useState<Sort>()
     const [completeTodoCounter, setCompleteTodoCounter] = useState<number>()
     const [isLoading, setIsLoading] = useState(true)
     const [errorMessage, setErrorMessage] = useState<string>()
@@ -22,7 +27,7 @@ export function UserTodo() {
     const fetchTodos = async () => {
         setIsLoading(true)
         try {
-            const items = await todoService.query()
+            const items = await todoService.query(filterText, sort)
             setTodos(items)
             const completeTodoCounter = todoService.getDoneCount(items)
             setCompleteTodoCounter(completeTodoCounter)
@@ -33,10 +38,15 @@ export function UserTodo() {
             setIsLoading(false)
         }
     }
+    const debouncedFetchTodos = useDebouncedCallback(fetchTodos, 1000)
 
     useEffect(() => {
         fetchTodos()
-    }, [])
+    }, [])// eslint-disable-line react-hooks/exhaustive-deps
+
+    useEffect(() => {
+        debouncedFetchTodos()
+    }, [filterText, sort]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
     const onRemoveTodo = async (id: string) => {
@@ -48,7 +58,6 @@ export function UserTodo() {
             showUserMsg({ text: 'Todo remove fail, please try again', type: 'error' })
         }
     }
-
 
     const onUpdateTodo = async (newTodo: Todo) => {
         try {
@@ -64,33 +73,57 @@ export function UserTodo() {
         }
     }
 
-
     const onTodoAdd = (todo: Todo) => {
         setTodos([todo, ...todos])
     }
 
 
+    const onChangeFilterText = (ev: React.ChangeEvent<HTMLInputElement>) => {
+        setFilterText(ev.target.value)
+    }
+
+    const onSetSort = (ev: React.ChangeEvent<HTMLSelectElement>) => {
+        const sortMethods = ev.target.value.split(' ')
+        if (!sortMethods.length) return
+
+        const sort = { sortParam: sortMethods[0], method: +sortMethods[1] }
+        setSort(sort)
+    }
+
+    const onClearFilterAndSort = () => {
+        setFilterText('')
+    }
+
+
     return (
-        <StyledCollection>
-            <section className="">
-                <MainTitle text="My todos" />
-                <p className="todo-stat">
-                    {completeTodoCounter} completed todos out of {todos.length} ({(((completeTodoCounter || 0) / todos.length * 100) || 0).toFixed(0)}%)
-                </p>
-            </section>
+        <StyledUserTodo>
+            <MainTitle text="My todos" />
 
             {errorMessage && <ErrorMessage error={errorMessage} />}
             {(!errorMessage && isLoading) && <Loader />}
             {(!errorMessage && !isLoading) &&
                 (todos.length
-                    ? <section>
-                        {todos.map(todo => <TodoPreview
-                            key={todo.id}
-                            todo={todo}
-                            onUpdateTodo={onUpdateTodo}
-                            onRemoveTodo={onRemoveTodo}
-                        />)}
-                    </section>
+                    ? <>
+                        <FilterAndSort
+                            filterText={filterText || ''}
+                            onChangeFilterText={onChangeFilterText}
+                            onSetSort={onSetSort}
+                            onClearFilterAndSort={onClearFilterAndSort}
+                        />
+
+                        <p className="todo-stat">
+                            {completeTodoCounter} completed todos out of {todos.length} ({(((completeTodoCounter || 0) / todos.length * 100) || 0).toFixed(0)}%)
+                        </p>
+
+                        <section>
+                            {todos.map(todo => <TodoPreview
+                                key={todo.id}
+                                todo={todo}
+                                onUpdateTodo={onUpdateTodo}
+                                onRemoveTodo={onRemoveTodo}
+                            />)}
+                        </section>
+                    </>
                     : <div className="no-todos-indicator">
                         Yay! you have 0 todos on list. Time to sleep! (or is it?)
                     </div>)
@@ -98,12 +131,12 @@ export function UserTodo() {
 
             <MainTitle text="Add todo" />
             <TodoAdd onTodoAdd={onTodoAdd} />
-        </StyledCollection>
+        </StyledUserTodo>
     )
 }
 
 
-const StyledCollection = styled.main`
+const StyledUserTodo = styled.main`
     ${flexColumnMixin('1.5rem')}
 
     p.todo-stat {

@@ -3,12 +3,32 @@ import { listTodos, getTodo } from '../graphql/queries'
 import { createTodo, deleteTodo, updateTodo } from '../graphql/mutations'
 import { Todo } from "../models/todo/todo"
 import { TodoToInsert } from '../models/todo/todo-to-insert'
+import { Sort } from '../models/todo/sort'
 
 
-async function query() {
+async function query(filterText?: string, sort?: Sort) {
     try {
         const { data } = await API.graphql(graphqlOperation(listTodos)) as { data: { listTodos: { items: Todo[] } }; errors: any[] }
-        return data.listTodos.items
+        let items = data.listTodos.items
+
+        if (filterText) {
+            const regExp = new RegExp(filterText, 'ig')
+            items = items.filter(item => item.text.match(regExp))
+        }
+
+        if (sort?.sortParam) {
+            switch (sort.sortParam) {
+                case 'text':
+                    items.sort((t1, t2) => (t1.text.localeCompare(t2.text)) * sort.method)
+                    break
+
+                case 'active':
+                    items.sort((c1, c2) => (Number(c1.isDone) - Number(c2.isDone)) * sort.method)
+                    break
+            }
+        }
+
+        return items
     } catch (err) {
         throw err
     }

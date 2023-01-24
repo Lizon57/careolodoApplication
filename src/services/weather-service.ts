@@ -1,4 +1,5 @@
 // import axios from "axios"
+// import { weatherKey } from "../aws-exports"
 
 // const AXIOS = axios.create()
 
@@ -11,7 +12,7 @@ async function get(location: string) {
             icon: 'https://cdn.worldweatheronline.com/images/wsymbols01_png_64/wsymbol_0004_black_low_cloud.png'
         }
 
-        // const { data } = await AXIOS.get(`http://api.weatherstack.com/current?access_key=d948ebdabb7c3f28fd09c318c7e2f52e&query=${location}`)
+        // const { data } = await AXIOS.get(`http://api.weatherstack.com/current?access_key=${weatherKey}&query=${location}`)
         // return {
         //     temp: data.current.temperature,
         //     icon: data.current.weather_icons[0]

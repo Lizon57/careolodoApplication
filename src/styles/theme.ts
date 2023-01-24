@@ -1,5 +1,6 @@
 export const theme = {
     blackLighter: '#434343',
+    blackLightest: '#bbb',
     purplePrimary: '#6236e8',
     purpleLighter: '#825fec',
     blueDarker: '#172c4f',
@@ -31,6 +32,10 @@ export const theme = {
     spaceBlockxxSmallRem: '0.6rem',
     spaceBlockxxxSmallRem: '0.5rem',
 
+    spaceInlinexxxLargeRem: '2rem',
+    spaceInlinexxLargeRem: '1.5rem',
+    spaceInlinexLargeRem: '1.3rem',
+    spaceInlineLargeRem: '1.2rem',
     spaceInlineRegularRem: '1rem',
     spaceInlineSmallRem: '0.8rem',
     spaceInlinexSmallRem: '0.7rem',
