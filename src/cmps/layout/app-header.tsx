@@ -23,7 +23,7 @@ export function AppHeader() {
                 <NavLink to="./" title="Homepage">Home</NavLink>
 
                 <>
-                    <Button text="Collections" navigateTo={`user-collections`} />
+                    <Button text="Collections" navigateTo={`collections`} />
                     <UserDropdown />
                 </>
             </div>

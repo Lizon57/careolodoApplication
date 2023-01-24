@@ -1,4 +1,4 @@
-export interface Todo {
+export interface TodoInsert {
     id?: string
     name: string
     description: string

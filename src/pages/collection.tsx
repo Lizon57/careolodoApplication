@@ -1,43 +1,42 @@
 import { useEffect, useState } from 'react'
 import { API, graphqlOperation } from 'aws-amplify'
-
 import { createTodo, deleteTodo } from '../graphql/mutations'
 import { listTodos } from '../graphql/queries'
-
-import { Todo } from '../models/todo'
+import { TodoInsert } from '../models/todo'
+import { Todo } from '../models/todo/todo'
+import { TodoPreview } from '../cmps/todo/todo-preview'
 
 
 const initialState = { name: '', description: '' }
 
-
 export function Collections() {
-    const [formState, setFormState] = useState(initialState)
+    const [insertTodoForm, setInsretTodoForm] = useState(initialState)
     const [todos, setTodos] = useState<Todo[]>([])
 
     useEffect(() => {
+        const fetchTodos = async () => {
+            try {
+                const todoData = await API.graphql(graphqlOperation(listTodos)) as { data: { listTodos: { items: TodoInsert[] } }; errors: any[] }
+                const items = todoData.data.listTodos.items as Todo[]
+                setTodos(items)
+            } catch (err) { console.log('error fetching todos') }
+        }
         fetchTodos()
     }, [])
 
-    const fetchTodos = async () => {
-        try {
-            const todoData = await API.graphql(graphqlOperation(listTodos)) as { data: { listTodos: { items: Todo[] } }; errors: any[] }
-            const { items } = todoData.data.listTodos
-            setTodos(items)
-        } catch (err) { console.log('error fetching todos') }
+
+    const handleChange = (key: string, value: string) => {
+        setInsretTodoForm({ ...insertTodoForm, [key]: value })
     }
 
-
-    const setInput = (key: string, value: string) => {
-        setFormState({ ...formState, [key]: value })
-    }
 
     const addTodo = async () => {
         try {
-            if (!formState.name || !formState.description) return
-            const todo = { ...formState }
-            setTodos([...todos, todo])
-            setFormState(initialState)
-            await API.graphql(graphqlOperation(createTodo, { input: todo }))
+            if (!insertTodoForm.name || !insertTodoForm.description) return
+            const serverResponse = await API.graphql(graphqlOperation(createTodo, { input: { ...insertTodoForm } })) as { data: { createTodo: Todo } }
+            const insertedTodo = serverResponse.data.createTodo
+            setTodos([...todos, insertedTodo])
+            setInsretTodoForm(initialState)
         } catch (err) {
             console.log('error creating todo:', err)
         }
@@ -51,23 +50,22 @@ export function Collections() {
         setTodos(newTodos)
     }
 
+
     return (
         <div className="todo-cli-container">
             <h2>Amplify Todos</h2>
             <input
-                onChange={event => setInput('name', event.target.value)}
-                value={formState.name}
+                onChange={event => handleChange('name', event.target.value)}
+                value={insertTodoForm.name}
                 placeholder="Name"
             />
             <input
-                onChange={event => setInput('description', event.target.value)}
-                value={formState.description}
+                onChange={event => handleChange('description', event.target.value)}
+                value={insertTodoForm.description}
                 placeholder="Description"
             />
             <button onClick={addTodo}>Create Todo</button>
-            {todos.map(todo => <div key={todo.id || Math.random()}>
-                {todo.name} <button onClick={() => onRemoveTodo(todo.id)}>X</button>
-            </div>)}
+            {todos.map(todo => <TodoPreview key={todo.id} todo={todo} onRemoveTodo={onRemoveTodo} />)}
         </div>
     )
 }

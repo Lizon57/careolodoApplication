@@ -6,7 +6,7 @@ import { Collections } from "../pages/collection"
 export const routes = [
     {
         id: makeId(),
-        path: 'user-collections',
+        path: 'collections',
         element: Collections
     },
     {
