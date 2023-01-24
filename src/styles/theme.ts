@@ -5,8 +5,13 @@ export const theme = {
     bluePrimary: '#1b335b',
     blueLighter: '#2f579d',
     redPrimary: '#8b0000',
+    whiteLighter: '#f4f0ee',
     whiteLightest: '#fafafa',
 
+    fontSizexxxxLargeRem: '2rem',
+    fontSizexxxLargeRem: '1.5rem',
+    fontSizexxLargeRem: '1.3rem',
+    fontSizexLargeRem: '1.2rem',
     fontSizeLargeRem: '1.1rem',
     fontSizeRegRem: '1rem',
     fontSizeSmallRem: '0.9rem',
@@ -14,6 +19,9 @@ export const theme = {
     fontSizexxSmallRem: '0.7rem',
     fontSizexxxSmallRem: '0.6rem',
 
+    spaceBlockxxxLargeRem: '1.5rem',
+    spaceBlockxLargeRem: '1.3rem',
+    spaceBlockLargeRem: '1.2rem',
     spaceBlockRegularRem: '1rem',
     spaceBlockSmallRem: '0.8rem',
     spaceBlockxSmallRem: '0.7rem',

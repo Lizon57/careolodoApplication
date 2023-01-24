@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router"
 import styled from "styled-components"
 import { devicesMinWidth } from "../../styles/media-queries/devices"
+import { transitionRegular } from "../../styles/mixins/transition-mixins"
 
 
 export function Button({ text, isSecondary, navigateTo, onClick }: Props) {
@@ -21,14 +22,14 @@ export function Button({ text, isSecondary, navigateTo, onClick }: Props) {
 
 const StyledButton = styled.button.attrs((props: { isSecondary: boolean }) => props)`
     cursor: pointer;
-    border: 1px solid #1b335b;
+    border: 1px solid ${({ theme }) => theme.bluePrimary};
     border-radius: 6px;
-    background-color: ${props => props.isSecondary ? 'transparent' : '#1b335b'};
-    color: ${props => props.isSecondary ? '#1b335b' : '#fafafa'};
-    font-size: 15px;
+    background-color: ${({ theme, isSecondary }) => isSecondary ? 'transparent' : theme.bluePrimary};
+    color: ${({ theme, isSecondary }) => isSecondary ? theme.bluePrimary : theme.whiteLightest};
+    font-size: ${({ theme }) => theme.fontSizeSmallRem};
     font-weight: bold;
     padding: 5px 12px;
-    transition: all ease-in-out .3s;
+    ${transitionRegular()}
     
     @media ${devicesMinWidth.tablet} {
         padding: 5px 24px;
@@ -37,7 +38,7 @@ const StyledButton = styled.button.attrs((props: { isSecondary: boolean }) => pr
     }
     
     &:hover {
-        background-color: ${props => props.isSecondary ? '#eef1f3' : '#12213b'};
+        background-color: ${({ theme, isSecondary }) => isSecondary ? theme.whiteLighter : theme.blueDarker};
     }
 `
 
