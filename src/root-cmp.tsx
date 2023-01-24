@@ -20,9 +20,11 @@ function App({ user }: any) {
 
   useEffect(() => {
     if (!user.pool.clientId || loggedUser) return
+    console.log(user)
     const newLoggedUser = {
+      id: user.pool.clientId,
       email: user.attributes.email,
-      username: user.username
+      username: user.username,
     }
     loginUser(newLoggedUser)
   }, [user]) // eslint-disable-line react-hooks/exhaustive-deps

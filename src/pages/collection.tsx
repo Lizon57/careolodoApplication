@@ -9,6 +9,8 @@ import { showUserMsg } from '../services/event-bus-service'
 import { TodoPreview } from '../cmps/todo/todo-preview'
 import { ErrorMessage } from '../cmps/layout/error-message'
 import { Loader } from '../cmps/layout/loader'
+import TodoAdd from '../cmps/todo/todo-add'
+import { flexColumnMixin } from '../styles/mixins/flex-mixins'
 
 
 const initialState = { name: '', description: '' }
@@ -44,16 +46,16 @@ export function Collections() {
 
 
     const onAddTodo = async () => {
-        try {
-            if (!insertTodoForm.name || !insertTodoForm.description) return
-            const serverResponse = await API.graphql(graphqlOperation(createTodo, { input: { ...insertTodoForm } })) as { data: { createTodo: Todo } }
-            const insertedTodo = serverResponse.data.createTodo
-            setTodos([...todos, insertedTodo])
-            setInsretTodoForm(initialState)
-            showUserMsg({ text: 'Todo added successfully', type: 'success' })
-        } catch (err) {
-            showUserMsg({ text: 'Todo add fail, please try again', type: 'error' })
-        }
+        // try {
+        //     if (!insertTodoForm.name || !insertTodoForm.description) return
+        //     const serverResponse = await API.graphql(graphqlOperation(createTodo, { input: { ...insertTodoForm } })) as { data: { createTodo: Todo } }
+        //     const insertedTodo = serverResponse.data.createTodo
+        //     setTodos([...todos, insertedTodo])
+        //     setInsretTodoForm(initialState)
+        //     showUserMsg({ text: 'Todo added successfully', type: 'success' })
+        // } catch (err) {
+        //     showUserMsg({ text: 'Todo add fail, please try again', type: 'error' })
+        // }
     }
 
 
@@ -72,28 +74,32 @@ export function Collections() {
 
     return (
         <StyledCollection>
-            <h2>Amplify Todos</h2>
-            <input
-                onChange={event => handleChange('name', event.target.value)}
-                value={insertTodoForm.name}
-                placeholder="Name"
-            />
-            <input
-                onChange={event => handleChange('description', event.target.value)}
-                value={insertTodoForm.description}
-                placeholder="Description"
-            />
-            <button onClick={onAddTodo}>Create Todo</button>
+            <div>
+                <input
+                    onChange={event => handleChange('name', event.target.value)}
+                    value={insertTodoForm.name}
+                    placeholder="Name"
+                />
+                <input
+                    onChange={event => handleChange('description', event.target.value)}
+                    value={insertTodoForm.description}
+                    placeholder="Description"
+                />
+                <button onClick={onAddTodo}>Create Todo</button>
+            </div>
 
             {errorMessage && <ErrorMessage error={errorMessage} />}
             {(!errorMessage && isLoading) && <Loader />}
             {(!errorMessage && !isLoading) &&
                 todos.map(todo => <TodoPreview key={todo.id} todo={todo} onRemoveTodo={onRemoveTodo} />)
             }
+
+            <TodoAdd />
         </StyledCollection>
     )
 }
 
 
 const StyledCollection = styled.main`
+    ${flexColumnMixin('1.5rem')}
 `

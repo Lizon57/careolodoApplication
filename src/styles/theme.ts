@@ -6,6 +6,7 @@ export const theme = {
     blueLighter: '#2f579d',
     greenPrimary: '#006400',
     redPrimary: '#8b0000',
+    whitePrimary: '#eef1f3',
     whiteLighter: '#f4f0ee',
     whiteLightest: '#fafafa',
 

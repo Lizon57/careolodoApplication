@@ -4,8 +4,16 @@
     "apiName": "careolodo",
     "serviceName": "AppSync",
     "defaultAuthType": {
-      "mode": "API_KEY",
-      "expirationTime": 7
-    }
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authcareolodo387a2ad2"
+    },
+    "additionalAuthTypes": [
+      {
+        "mode": "API_KEY",
+        "expirationTime": 365,
+        "apiKeyExpirationDate": "2024-01-24T15:45:30.121Z",
+        "keyDescription": "Careolodo api"
+      }
+    ]
   }
 }

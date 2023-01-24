@@ -12,11 +12,11 @@
       "AmplifyAppId": "d1ob3jb2vl43q1"
     },
     "categories": {
+      "auth": {
+        "careolodo387a2ad2": {}
+      },
       "api": {
         "careolodo": {}
-      },
-      "auth": {
-        "careolodo9e834aa2": {}
       }
     }
   }

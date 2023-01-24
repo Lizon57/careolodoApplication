@@ -1,5 +1,11 @@
 {
   "AppSyncApiName": "careolodo",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
-  "DynamoDBEnableServerSideEncryption": false
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authcareolodo387a2ad2",
+      "Outputs.UserPoolId"
+    ]
+  }
 }

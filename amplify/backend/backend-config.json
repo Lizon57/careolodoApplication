@@ -1,15 +1,32 @@
 {
   "api": {
     "careolodo": {
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "careolodo387a2ad2"
+        }
+      ],
       "output": {
         "authConfig": {
-          "additionalAuthenticationProviders": [],
+          "additionalAuthenticationProviders": [
+            {
+              "apiKeyConfig": {
+                "apiKeyExpirationDate": "2024-01-24T15:45:30.121Z",
+                "apiKeyExpirationDays": 365,
+                "description": "Careolodo api"
+              },
+              "authenticationType": "API_KEY"
+            }
+          ],
           "defaultAuthentication": {
-            "apiKeyConfig": {
-              "apiKeyExpirationDays": 7
-            },
-            "authenticationType": "API_KEY"
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authcareolodo387a2ad2"
+            }
           }
         }
       },
@@ -18,7 +35,7 @@
     }
   },
   "auth": {
-    "careolodo9e834aa2": {
+    "careolodo387a2ad2": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {

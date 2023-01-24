@@ -4,13 +4,17 @@
 
 export type CreateTodoInput = {
   id?: string | null,
-  name: string,
-  description?: string | null,
+  byUserId: string,
+  text: string,
+  isDone: boolean,
+  location?: string | null,
 };
 
 export type ModelTodoConditionInput = {
-  name?: ModelStringInput | null,
-  description?: ModelStringInput | null,
+  byUserId?: ModelStringInput | null,
+  text?: ModelStringInput | null,
+  isDone?: ModelBooleanInput | null,
+  location?: ModelStringInput | null,
   and?: Array< ModelTodoConditionInput | null > | null,
   or?: Array< ModelTodoConditionInput | null > | null,
   not?: ModelTodoConditionInput | null,
@@ -56,19 +60,31 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
+export type ModelBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
 export type Todo = {
   __typename: "Todo",
   id: string,
-  name: string,
-  description?: string | null,
+  byUserId: string,
+  text: string,
+  isDone: boolean,
+  location?: string | null,
   createdAt: string,
   updatedAt: string,
+  owner?: string | null,
 };
 
 export type UpdateTodoInput = {
   id: string,
-  name?: string | null,
-  description?: string | null,
+  byUserId?: string | null,
+  text?: string | null,
+  isDone?: boolean | null,
+  location?: string | null,
 };
 
 export type DeleteTodoInput = {
@@ -77,8 +93,10 @@ export type DeleteTodoInput = {
 
 export type ModelTodoFilterInput = {
   id?: ModelIDInput | null,
-  name?: ModelStringInput | null,
-  description?: ModelStringInput | null,
+  byUserId?: ModelStringInput | null,
+  text?: ModelStringInput | null,
+  isDone?: ModelBooleanInput | null,
+  location?: ModelStringInput | null,
   and?: Array< ModelTodoFilterInput | null > | null,
   or?: Array< ModelTodoFilterInput | null > | null,
   not?: ModelTodoFilterInput | null,
@@ -108,8 +126,10 @@ export type ModelTodoConnection = {
 
 export type ModelSubscriptionTodoFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  name?: ModelSubscriptionStringInput | null,
-  description?: ModelSubscriptionStringInput | null,
+  byUserId?: ModelSubscriptionStringInput | null,
+  text?: ModelSubscriptionStringInput | null,
+  isDone?: ModelSubscriptionBooleanInput | null,
+  location?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionTodoFilterInput | null > | null,
   or?: Array< ModelSubscriptionTodoFilterInput | null > | null,
 };
@@ -144,6 +164,11 @@ export type ModelSubscriptionStringInput = {
   notIn?: Array< string | null > | null,
 };
 
+export type ModelSubscriptionBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
+};
+
 export type CreateTodoMutationVariables = {
   input: CreateTodoInput,
   condition?: ModelTodoConditionInput | null,
@@ -153,10 +178,13 @@ export type CreateTodoMutation = {
   createTodo?:  {
     __typename: "Todo",
     id: string,
-    name: string,
-    description?: string | null,
+    byUserId: string,
+    text: string,
+    isDone: boolean,
+    location?: string | null,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -169,10 +197,13 @@ export type UpdateTodoMutation = {
   updateTodo?:  {
     __typename: "Todo",
     id: string,
-    name: string,
-    description?: string | null,
+    byUserId: string,
+    text: string,
+    isDone: boolean,
+    location?: string | null,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -185,10 +216,13 @@ export type DeleteTodoMutation = {
   deleteTodo?:  {
     __typename: "Todo",
     id: string,
-    name: string,
-    description?: string | null,
+    byUserId: string,
+    text: string,
+    isDone: boolean,
+    location?: string | null,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -200,10 +234,13 @@ export type GetTodoQuery = {
   getTodo?:  {
     __typename: "Todo",
     id: string,
-    name: string,
-    description?: string | null,
+    byUserId: string,
+    text: string,
+    isDone: boolean,
+    location?: string | null,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -219,10 +256,13 @@ export type ListTodosQuery = {
     items:  Array< {
       __typename: "Todo",
       id: string,
-      name: string,
-      description?: string | null,
+      byUserId: string,
+      text: string,
+      isDone: boolean,
+      location?: string | null,
       createdAt: string,
       updatedAt: string,
+      owner?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -230,45 +270,57 @@ export type ListTodosQuery = {
 
 export type OnCreateTodoSubscriptionVariables = {
   filter?: ModelSubscriptionTodoFilterInput | null,
+  owner?: string | null,
 };
 
 export type OnCreateTodoSubscription = {
   onCreateTodo?:  {
     __typename: "Todo",
     id: string,
-    name: string,
-    description?: string | null,
+    byUserId: string,
+    text: string,
+    isDone: boolean,
+    location?: string | null,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
 export type OnUpdateTodoSubscriptionVariables = {
   filter?: ModelSubscriptionTodoFilterInput | null,
+  owner?: string | null,
 };
 
 export type OnUpdateTodoSubscription = {
   onUpdateTodo?:  {
     __typename: "Todo",
     id: string,
-    name: string,
-    description?: string | null,
+    byUserId: string,
+    text: string,
+    isDone: boolean,
+    location?: string | null,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
 export type OnDeleteTodoSubscriptionVariables = {
   filter?: ModelSubscriptionTodoFilterInput | null,
+  owner?: string | null,
 };
 
 export type OnDeleteTodoSubscription = {
   onDeleteTodo?:  {
     __typename: "Todo",
     id: string,
-    name: string,
-    description?: string | null,
+    byUserId: string,
+    text: string,
+    isDone: boolean,
+    location?: string | null,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
