@@ -5,6 +5,7 @@ import { Todo } from "../../models/todo/todo"
 import { flexAlignCenterMixin } from "../../styles/mixins/flex-mixins"
 import { capitalFirstLetter } from "../../styles/mixins/text-mixins"
 import { dateFromStringFormatter } from "../../utils/date-from-string-formatter"
+import equal from "fast-deep-equal"
 
 
 // export function TodoPreview({ todo, onEditTodoText, onToggleIsDone, onRemoveTodo }: Props) {
@@ -14,6 +15,15 @@ export function TodoPreview({ todo, onUpdateTodo, onRemoveTodo }: Props) {
         updatedTodo.isDone = !todo.isDone
         onUpdateTodo(updatedTodo)
     }
+
+    const onEditTodoText = (ev: React.FocusEvent<HTMLSpanElement, Element>, field: 'text' | 'location') => {
+        const updatedTodo = structuredClone(todo)
+        updatedTodo[field] = ev.target.textContent || 'No text given'
+        const isEqualTodo = equal(todo, updatedTodo)
+        if (isEqualTodo) return
+        onUpdateTodo(updatedTodo)
+    }
+
 
     return (
         <StyledTodoPreview>
@@ -29,11 +39,27 @@ export function TodoPreview({ todo, onUpdateTodo, onRemoveTodo }: Props) {
                 }
             </span>
 
-            <span className={'text' + (todo.isDone ? ' done' : '')} title={todo.text}>{todo.text}</span>
+            <span
+                className={'text' + (todo.isDone ? ' done' : '')}
+                title={todo.text}
+                onBlur={ev => onEditTodoText(ev, 'text')}
+                contentEditable
+                suppressContentEditableWarning
+            >
+                {todo.text}
+            </span>
 
             <button className="remove-button" title="Remove todo" onClick={() => onRemoveTodo(todo.id)}><FaTimes /></button>
 
-            {todo.location && <span className="location" title={`Todo at ${todo.location}`}>At {todo.location}</span>}
+            {todo.location && <span
+                className="location"
+                title={`Todo at ${todo.location}`}
+                onBlur={ev => onEditTodoText(ev, 'location')}
+                contentEditable
+                suppressContentEditableWarning
+            >
+                {todo.location}
+            </span>}
         </StyledTodoPreview>
     )
 }
@@ -73,7 +99,8 @@ const StyledTodoPreview = styled.article`
     span.text {
         grid-column: 2/3;
         grid-row: 2/3;
-
+        
+        outline: 0;
         ${capitalFirstLetter()}
         font-family: ${({ theme }) => theme.typographyEmphasis};
 
@@ -96,7 +123,13 @@ const StyledTodoPreview = styled.article`
     span.location {
         grid-column: 2/3;
         grid-row: 3/4;
+
+        outline: 0;
         font-size: ${({ theme }) => theme.fontSizexSmallRem};
+
+        &::before {
+            content: "At "
+        }
     }
 `
 
