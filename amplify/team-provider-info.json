@@ -10,6 +10,11 @@
       "StackName": "amplify-careolodo-dev-140332",
       "StackId": "arn:aws:cloudformation:us-east-1:668874461206:stack/amplify-careolodo-dev-140332/2195ef80-9bdf-11ed-880b-0e4be547c027",
       "AmplifyAppId": "d1ob3jb2vl43q1"
+    },
+    "categories": {
+      "api": {
+        "careolodo": {}
+      }
     }
   }
 }
