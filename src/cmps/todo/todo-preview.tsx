@@ -86,9 +86,9 @@ const StyledTodoPreview = styled.article`
         background-color: ${({ theme }) => theme.whitePrimary};
     }
 
-    /* &:hover button.remove-button {
+    &:hover button.remove-button {
         ${flexAlignCenterMixin()}
-    } */
+    }
 
     div.date {
         grid-column: 1/-1;
