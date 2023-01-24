@@ -8,7 +8,13 @@ import { dateFromStringFormatter } from "../../utils/date-from-string-formatter"
 
 
 // export function TodoPreview({ todo, onEditTodoText, onToggleIsDone, onRemoveTodo }: Props) {
-export function TodoPreview({ todo, onRemoveTodo }: Props) {
+export function TodoPreview({ todo, onUpdateTodo, onRemoveTodo }: Props) {
+    const onToggleIsDone = () => {
+        const updatedTodo = structuredClone(todo)
+        updatedTodo.isDone = !todo.isDone
+        onUpdateTodo(updatedTodo)
+    }
+
     return (
         <StyledTodoPreview>
             <div className="date">
@@ -16,7 +22,7 @@ export function TodoPreview({ todo, onRemoveTodo }: Props) {
                 {(todo.createdAt !== todo.updatedAt) && <span>(Updated at {dateFromStringFormatter(todo.updatedAt)})</span>}
             </div>
 
-            <span className="state-icon">
+            <span className="state-icon" onClick={() => onToggleIsDone()}>
                 {todo.isDone
                     ? <FiCheckSquare title="Complete todo" />
                     : <FiSquare title="Yet to complete todo" />
@@ -99,5 +105,6 @@ type Props = {
     todo: Todo
     // onEditTodoText: (ev: React.FocusEvent<HTMLSpanElement, Element>, todoId: string, field: 'text' | 'location') => void
     // onToggleIsDone: (todoId: string) => void
-    onRemoveTodo: (todoId: string) => void
+    onUpdateTodo: (todo: Todo) => void
+    onRemoveTodo: (id: string) => void
 }

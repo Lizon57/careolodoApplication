@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { API, graphqlOperation } from 'aws-amplify'
-import { deleteTodo } from '../graphql/mutations'
-import { listTodos } from '../graphql/queries'
 import { Todo } from '../models/todo/todo'
 import { showUserMsg } from '../services/event-bus-service'
 import { TodoPreview } from '../cmps/todo/todo-preview'
@@ -25,8 +22,7 @@ export function Collections() {
     const fetchTodos = async () => {
         setIsLoading(true)
         try {
-            const todoData = await API.graphql(graphqlOperation(listTodos)) as { data: { listTodos: { items: Todo[] } }; errors: any[] }
-            const items = todoData.data.listTodos.items
+            const items = await todoService.query()
             setTodos(items)
             const completeTodoCounter = todoService.getDoneCount(items)
             setCompleteTodoCounter(completeTodoCounter)
@@ -43,16 +39,34 @@ export function Collections() {
     }, [])
 
 
-    const onRemoveTodo = async (id: string | undefined) => {
-        if (!id) return
+    const onRemoveTodo = async (id: string) => {
         try {
-            await API.graphql({ query: deleteTodo, variables: { input: { id } } })
-            const newTodos = todos.filter(todo => todo.id !== id)
-            setTodos(newTodos)
+            const todos = await todoService.remove(id)
+            setTodos(todos)
             showUserMsg({ text: 'Todo removed successfully', type: 'success' })
         } catch (err) {
             showUserMsg({ text: 'Todo remove fail, please try again', type: 'error' })
         }
+    }
+
+
+    const onUpdateTodo = async (newTodo: Todo) => {
+        try {
+            await todoService.update(newTodo) as Todo
+            const todoIdx = todos.findIndex(todo => todo.id === newTodo.id)
+            if (todoIdx < 0) return
+            const newTodos = todos.slice()
+            newTodos.splice(todoIdx, 1, newTodo)
+            setTodos(newTodos)
+            showUserMsg({ text: 'Todo update successfully', type: 'success' })
+        } catch (err) {
+            showUserMsg({ text: 'Todo update fail, please try again', type: 'error' })
+        }
+    }
+
+
+    const onTodoAdd = (todo: Todo) => {
+        setTodos([todo, ...todos])
     }
 
 
@@ -69,11 +83,16 @@ export function Collections() {
             {(!errorMessage && isLoading) && <Loader />}
             {(!errorMessage && !isLoading) &&
                 <section>
-                    {todos.map(todo => <TodoPreview key={todo.id} todo={todo} onRemoveTodo={onRemoveTodo} />)}
+                    {todos.map(todo => <TodoPreview
+                        key={todo.id}
+                        todo={todo}
+                        onUpdateTodo={onUpdateTodo}
+                        onRemoveTodo={onRemoveTodo}
+                    />)}
                 </section>
             }
 
-            <TodoAdd />
+            <TodoAdd onTodoAdd={onTodoAdd} />
         </StyledCollection>
     )
 }

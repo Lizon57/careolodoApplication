@@ -1,11 +1,10 @@
 import { FormEvent, useEffect, useState, useRef } from "react"
-import { API, graphqlOperation } from 'aws-amplify'
 import { withAuthenticator } from '@aws-amplify/ui-react'
-import { createTodo } from '../../graphql/mutations'
 import styled from "styled-components"
 import { FiSquare, FiCheckSquare } from "react-icons/fi"
 import { useSelector } from "react-redux"
 import { RootState } from "../../store/store"
+import { Todo } from "../../models/todo/todo"
 import { todoService } from "../../services/todo-service"
 import { showUserMsg } from "../../services/event-bus-service"
 import { Input } from "../ui/input"
@@ -13,7 +12,7 @@ import { flexAlignCenterMixin } from "../../styles/mixins/flex-mixins"
 import { Button } from "../ui/button"
 
 
-function TodoAdd() {
+function TodoAdd({ onTodoAdd }: Props) {
     const { loggedUser } = useSelector((state: RootState) => state.userModule)
     const [todo, setTodo] = useState(todoService.getEmptyTodo())
     const elTodoText = useRef<HTMLInputElement>(null)
@@ -48,8 +47,8 @@ function TodoAdd() {
         ev.preventDefault()
 
         try {
-            if (!todo.text) return
-            await API.graphql(graphqlOperation(createTodo, { input: { ...todo } }))
+            const newTodo = await todoService.add(todo) as Todo
+            onTodoAdd(newTodo)
             onClearTodo()
             showUserMsg({ text: 'Todo added successfully', type: 'success' })
             elTodoText.current?.focus()
@@ -95,3 +94,8 @@ const StyledTodoAdd = styled.div`
 
 
 export default withAuthenticator(TodoAdd)
+
+
+type Props = {
+    onTodoAdd: (todo: Todo) => void
+}

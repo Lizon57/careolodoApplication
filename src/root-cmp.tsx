@@ -20,7 +20,6 @@ function App({ user }: any) {
 
   useEffect(() => {
     if (!user.pool.clientId || loggedUser) return
-    console.log(user)
     const newLoggedUser = {
       id: user.pool.clientId,
       email: user.attributes.email,
