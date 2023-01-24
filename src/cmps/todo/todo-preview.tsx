@@ -1,11 +1,12 @@
 import styled from "styled-components"
 import { FiCheckSquare, FiSquare } from "react-icons/fi"
 import { FaTimes } from "react-icons/fa"
+import equal from "fast-deep-equal"
 import { Todo } from "../../models/todo/todo"
 import { flexAlignCenterMixin } from "../../styles/mixins/flex-mixins"
 import { capitalFirstLetter } from "../../styles/mixins/text-mixins"
 import { dateFromStringFormatter } from "../../utils/date-from-string-formatter"
-import equal from "fast-deep-equal"
+import { TodoWeather } from "./todo-weather"
 
 
 // export function TodoPreview({ todo, onEditTodoText, onToggleIsDone, onRemoveTodo }: Props) {
@@ -51,15 +52,21 @@ export function TodoPreview({ todo, onUpdateTodo, onRemoveTodo }: Props) {
 
             <button className="remove-button" title="Remove todo" onClick={() => onRemoveTodo(todo.id)}><FaTimes /></button>
 
-            {todo.location && <span
-                className="location"
-                title={`Todo at ${todo.location}`}
-                onBlur={ev => onEditTodoText(ev, 'location')}
-                contentEditable
-                suppressContentEditableWarning
-            >
-                {todo.location}
-            </span>}
+            {todo.location &&
+                <>
+                    <span
+                        className="location"
+                        title={`Todo at ${todo.location}`}
+                        onBlur={ev => onEditTodoText(ev, 'location')}
+                        contentEditable
+                        suppressContentEditableWarning
+                    >
+                        {todo.location}
+                    </span>
+
+                    <TodoWeather location={todo.location} />
+                </>
+            }
         </StyledTodoPreview>
     )
 }
@@ -112,6 +119,7 @@ const StyledTodoPreview = styled.article`
     button.remove-button {
         grid-column: 3/4;
         grid-row: 2/3;
+        justify-self: end;
 
         display: none;
         cursor: pointer;
