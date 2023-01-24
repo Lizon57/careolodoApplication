@@ -2,6 +2,8 @@
 import ReactDOM from 'react-dom/client'
 import { Amplify } from 'aws-amplify'
 import awsExports from "./aws-exports"
+import 'normalize.css'
+import "./styles/style.css"
 import App from './root-cmp'
 
 

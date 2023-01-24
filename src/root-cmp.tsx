@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { API, graphqlOperation } from 'aws-amplify'
 
 import { createTodo, deleteTodo } from './graphql/mutations'
 import { listTodos } from './graphql/queries'
 
 import { Todo } from './models/todo'
+
+import { StyledAppLayout } from './cmps/layout/styled-app-layout'
+import { AppHeader } from './cmps/layout/app-header'
+import { AppFooter } from './cmps/layout/app-footer'
 
 
 
@@ -50,23 +55,29 @@ function App() {
   }
 
   return (
-    <div className="todo-cli-container">
-      <h2>Amplify Todos</h2>
-      <input
-        onChange={event => setInput('name', event.target.value)}
-        value={formState.name}
-        placeholder="Name"
-      />
-      <input
-        onChange={event => setInput('description', event.target.value)}
-        value={formState.description}
-        placeholder="Description"
-      />
-      <button onClick={addTodo}>Create Todo</button>
-      {todos.map(todo => <div key={todo.id || Math.random()}>
-        {todo.name} <button onClick={() => onRemoveTodo(todo.id)}>X</button>
-      </div>)}
-    </div>
+    <Router>
+      <StyledAppLayout>
+        <AppHeader />
+        <div className="todo-cli-container">
+          <h2>Amplify Todos</h2>
+          <input
+            onChange={event => setInput('name', event.target.value)}
+            value={formState.name}
+            placeholder="Name"
+          />
+          <input
+            onChange={event => setInput('description', event.target.value)}
+            value={formState.description}
+            placeholder="Description"
+          />
+          <button onClick={addTodo}>Create Todo</button>
+          {todos.map(todo => <div key={todo.id || Math.random()}>
+            {todo.name} <button onClick={() => onRemoveTodo(todo.id)}>X</button>
+          </div>)}
+        </div>
+        <AppFooter />
+      </StyledAppLayout>
+    </Router>
   )
 }
 
