@@ -1,7 +1,9 @@
 // import reportWebVitals from './reportWebVitals'
+import { Provider as StoreProvider } from "react-redux"
 import ReactDOM from 'react-dom/client'
 import { Amplify } from 'aws-amplify'
 import awsExports from "./aws-exports"
+import { store } from './store/store'
 import 'normalize.css'
 import "./styles/style.css"
 import App from './root-cmp'
@@ -15,7 +17,9 @@ const root = ReactDOM.createRoot(
 )
 
 root.render(
-  <App />
+  <StoreProvider store={store}>
+    <App />
+  </StoreProvider>
 )
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,20 +1,15 @@
 import { Link, NavLink } from "react-router-dom"
 import styled from "styled-components"
-// import { useSelector } from "react-redux"
-// import { RootState } from "../../store/store"
 import logo from "../../assets/images/logo.png"
 import logoSymbol from "../../assets/images/logo-symbol.svg"
 import upWave from "../../assets/images/up-wave.svg"
-// import { UserDropdown } from "./user-dropdown"
 import { Button } from "../ui/button"
+import UserDropdown from "./user-dropdown"
 import { flexAlignCenterMixin } from "../../styles/mixins/flex-mixins"
 import { devicesMinWidth } from "../../styles/media-queries/devices"
 
 
 export function AppHeader() {
-    // const { loggedUser } = useSelector((state: RootState) => state.userModule)
-
-
     return (
         <StyledAppHeader>
             <Link to="./" title="Careolodo (homepage link)">
@@ -28,16 +23,8 @@ export function AppHeader() {
 
                 <>
                     <Button text="Collections" navigateTo={`user-collections`} />
+                    <UserDropdown />
                 </>
-                {/* {loggedUser
-                    ? <>
-                        <UserDropdown user={loggedUser} />
-                    </>
-                    : <>
-                        <NavLink to="signup" title="Signup to Careolodo">Signup</NavLink>
-                        <Button text="Login" navigateTo="login" />
-                    </>} */}
-                <Button text="Login / Signup" navigateTo="login-signup" />
             </div>
         </StyledAppHeader>
     )

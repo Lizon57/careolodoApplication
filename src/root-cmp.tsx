@@ -1,9 +1,14 @@
 import { useEffect, useState } from 'react'
+import { useSelector } from "react-redux"
 import { BrowserRouter as Router } from 'react-router-dom'
 import { API, graphqlOperation } from 'aws-amplify'
+import { withAuthenticator } from '@aws-amplify/ui-react'
 
 import { createTodo, deleteTodo } from './graphql/mutations'
 import { listTodos } from './graphql/queries'
+
+import { loginUser } from './store/actions/user-action'
+import { RootState } from './store/store'
 
 import { Todo } from './models/todo'
 
@@ -11,7 +16,6 @@ import { StyledAppLayout } from './cmps/layout/styled-app-layout'
 import { AppHeader } from './cmps/layout/app-header'
 import { AppFooter } from './cmps/layout/app-footer'
 
-import { withAuthenticator } from '@aws-amplify/ui-react'
 import '@aws-amplify/ui-react/styles.css'
 
 
@@ -19,12 +23,23 @@ import '@aws-amplify/ui-react/styles.css'
 const initialState = { name: '', description: '' }
 
 function App({ user }: any) {
+  const { loggedUser } = useSelector((state: RootState) => state.userModule)
   const [formState, setFormState] = useState(initialState)
   const [todos, setTodos] = useState<Todo[]>([])
 
   useEffect(() => {
     fetchTodos()
   }, [])
+
+
+  useEffect(() => {
+    if (!user.pool.clientId || loggedUser) return
+    const newLoggedUser = {
+      email: user.attributes.email,
+      username: user.username
+    }
+    loginUser(newLoggedUser)
+  }, [user]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
   const setInput = (key: string, value: string) => {
