@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { API, graphqlOperation } from 'aws-amplify'
-import { createTodo, deleteTodo } from '../graphql/mutations'
+import { deleteTodo } from '../graphql/mutations'
 import { listTodos } from '../graphql/queries'
-import { TodoInsert } from '../models/todo'
 import { Todo } from '../models/todo/todo'
 import { showUserMsg } from '../services/event-bus-service'
 import { TodoPreview } from '../cmps/todo/todo-preview'
@@ -11,52 +10,37 @@ import { ErrorMessage } from '../cmps/layout/error-message'
 import { Loader } from '../cmps/layout/loader'
 import TodoAdd from '../cmps/todo/todo-add'
 import { flexColumnMixin } from '../styles/mixins/flex-mixins'
+import { MainTitle } from '../cmps/ui/main-title'
+import { todoService } from '../services/todo-service'
 
 
-const initialState = { name: '', description: '' }
 
 export function Collections() {
-    const [insertTodoForm, setInsretTodoForm] = useState(initialState)
     const [todos, setTodos] = useState<Todo[]>([])
+    const [completeTodoCounter, setCompleteTodoCounter] = useState<number>()
     const [isLoading, setIsLoading] = useState(true)
     const [errorMessage, setErrorMessage] = useState<string>()
 
 
-    useEffect(() => {
-        const fetchTodos = async () => {
-            setIsLoading(true)
-            try {
-                const todoData = await API.graphql(graphqlOperation(listTodos)) as { data: { listTodos: { items: TodoInsert[] } }; errors: any[] }
-                const items = todoData.data.listTodos.items as Todo[]
-                setTodos(items)
-            } catch (err) {
-                if (typeof err === 'string') setErrorMessage(err)
-                else setErrorMessage('Unknown error occured, please try again.')
-            } finally {
-                setIsLoading(false)
-            }
+    const fetchTodos = async () => {
+        setIsLoading(true)
+        try {
+            const todoData = await API.graphql(graphqlOperation(listTodos)) as { data: { listTodos: { items: Todo[] } }; errors: any[] }
+            const items = todoData.data.listTodos.items
+            setTodos(items)
+            const completeTodoCounter = todoService.getDoneCount(items)
+            setCompleteTodoCounter(completeTodoCounter)
+        } catch (err) {
+            if (typeof err === 'string') setErrorMessage(err)
+            else setErrorMessage('Unknown error occured, please try again.')
+        } finally {
+            setIsLoading(false)
         }
+    }
+
+    useEffect(() => {
         fetchTodos()
     }, [])
-
-
-    const handleChange = (key: string, value: string) => {
-        setInsretTodoForm({ ...insertTodoForm, [key]: value })
-    }
-
-
-    const onAddTodo = async () => {
-        // try {
-        //     if (!insertTodoForm.name || !insertTodoForm.description) return
-        //     const serverResponse = await API.graphql(graphqlOperation(createTodo, { input: { ...insertTodoForm } })) as { data: { createTodo: Todo } }
-        //     const insertedTodo = serverResponse.data.createTodo
-        //     setTodos([...todos, insertedTodo])
-        //     setInsretTodoForm(initialState)
-        //     showUserMsg({ text: 'Todo added successfully', type: 'success' })
-        // } catch (err) {
-        //     showUserMsg({ text: 'Todo add fail, please try again', type: 'error' })
-        // }
-    }
 
 
     const onRemoveTodo = async (id: string | undefined) => {
@@ -74,24 +58,19 @@ export function Collections() {
 
     return (
         <StyledCollection>
-            <div>
-                <input
-                    onChange={event => handleChange('name', event.target.value)}
-                    value={insertTodoForm.name}
-                    placeholder="Name"
-                />
-                <input
-                    onChange={event => handleChange('description', event.target.value)}
-                    value={insertTodoForm.description}
-                    placeholder="Description"
-                />
-                <button onClick={onAddTodo}>Create Todo</button>
-            </div>
+            <section className="">
+                <MainTitle text="My todos" />
+                <p className="todo-stat">
+                    {completeTodoCounter} completed todos out of {todos.length} ({((completeTodoCounter || 0) / todos.length * 100).toFixed(0)}%)
+                </p>
+            </section>
 
             {errorMessage && <ErrorMessage error={errorMessage} />}
             {(!errorMessage && isLoading) && <Loader />}
             {(!errorMessage && !isLoading) &&
-                todos.map(todo => <TodoPreview key={todo.id} todo={todo} onRemoveTodo={onRemoveTodo} />)
+                <section>
+                    {todos.map(todo => <TodoPreview key={todo.id} todo={todo} onRemoveTodo={onRemoveTodo} />)}
+                </section>
             }
 
             <TodoAdd />
@@ -102,4 +81,8 @@ export function Collections() {
 
 const StyledCollection = styled.main`
     ${flexColumnMixin('1.5rem')}
+
+    p.todo-stat {
+        font-family: ${({ theme }) => theme.typographyEmphasis};
+    }
 `

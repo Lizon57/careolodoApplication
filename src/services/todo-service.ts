@@ -1,5 +1,8 @@
-async function add() {
+import { Todo } from "../models/todo/todo"
 
+
+function getDoneCount(todos: Todo[]) {
+    return todos.filter(todo => todo.isDone).length
 }
 
 
@@ -14,17 +17,6 @@ function getEmptyTodo() {
 
 
 export const todoService = {
+    getDoneCount,
     getEmptyTodo
 }
-
-
-// type Todo {
-//     // id: ID!
-//     // byUserId: String!
-//     text: String!
-//     isDone: Boolean!
-//     location: String
-//     // createdAt: AWSDateTime!
-//     // updatedAt: AWSDateTime!
-//     // owner: String
-// }
