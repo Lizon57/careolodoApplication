@@ -40,7 +40,6 @@ async function getById(id: string) {
         const { data } = await API.graphql({ query: getTodo, variables: { id } }) as { data: { getTodo: Todo } }
         return data.getTodo
     } catch (err) {
-        console.log(err)
         throw err
     }
 }

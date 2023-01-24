@@ -10,6 +10,7 @@ import { signoutUser } from "../../store/actions/user-action"
 import { Button } from "../ui/button"
 import { flexColumnMixin } from "../../styles/mixins/flex-mixins"
 import { takesContainerSizeMixin } from "../../styles/mixins/size-mixins"
+import { showUserMsg } from "../../services/event-bus-service"
 
 
 function UserDropdown({ signOut }: any) {
@@ -29,7 +30,7 @@ function UserDropdown({ signOut }: any) {
             signoutUser()
             navigate('/')
         } catch (err) {
-            console.log(err)
+            showUserMsg({ text: 'An error occured while trying to logout. Please try again', type: 'error' })
         }
     }
 
