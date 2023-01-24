@@ -83,19 +83,20 @@ export function UserTodo() {
             {(!errorMessage && isLoading) && <Loader />}
             {(!errorMessage && !isLoading) &&
                 (todos.length
-                ? <section>
-                    {todos.map(todo => <TodoPreview
-                        key={todo.id}
-                        todo={todo}
-                        onUpdateTodo={onUpdateTodo}
-                        onRemoveTodo={onRemoveTodo}
-                    />)}
-                </section>
-                : <div className="no-todos-indicator">
-                    Yay! you have 0 todos on list. Time to sleep! (or is it?)
-                </div>)
+                    ? <section>
+                        {todos.map(todo => <TodoPreview
+                            key={todo.id}
+                            todo={todo}
+                            onUpdateTodo={onUpdateTodo}
+                            onRemoveTodo={onRemoveTodo}
+                        />)}
+                    </section>
+                    : <div className="no-todos-indicator">
+                        Yay! you have 0 todos on list. Time to sleep! (or is it?)
+                    </div>)
             }
 
+            <MainTitle text="Add todo" />
             <TodoAdd onTodoAdd={onTodoAdd} />
         </StyledCollection>
     )

@@ -8,8 +8,9 @@ import { Todo } from "../../models/todo/todo"
 import { todoService } from "../../services/todo-service"
 import { showUserMsg } from "../../services/event-bus-service"
 import { Input } from "../ui/input"
-import { flexAlignCenterMixin } from "../../styles/mixins/flex-mixins"
 import { Button } from "../ui/button"
+import { flexAlignCenterMixin, flexColumnMixin } from "../../styles/mixins/flex-mixins"
+import { devicesMinWidth } from "../../styles/media-queries/devices"
 
 
 function TodoAdd({ onTodoAdd }: Props) {
@@ -61,11 +62,12 @@ function TodoAdd({ onTodoAdd }: Props) {
     return (
         <StyledTodoAdd>
             <form onSubmit={onAddTodo}>
-                <span onClick={onToggleIsDone}>
+                <span onClick={onToggleIsDone} className="todo-state-indicator">
                     {todo.isDone
-                        ? <FiCheckSquare title="Complete todo" />
-                        : <FiSquare title="Yet to complete todo" />
+                        ? <FiCheckSquare size={20} title="Complete todo" />
+                        : <FiSquare size={20} title="Yet to complete todo" />
                     }
+                    <span>(Add as {todo.isDone ? 'done' : 'undone'} todo)</span>
                 </span>
 
                 <div className="todo-data-container">
@@ -83,12 +85,35 @@ function TodoAdd({ onTodoAdd }: Props) {
 
 const StyledTodoAdd = styled.div`
     form {
-        ${flexAlignCenterMixin('1rem')}
+        ${flexColumnMixin('0.5rem')}
+
+        @media ${devicesMinWidth.tablet} {
+            flex-direction: row;
+
+            ${flexAlignCenterMixin('1rem')}
+        }
+
+        input {
+            width: 100%;
+        }
     }
 
+    span.todo-state-indicator{
+        ${flexAlignCenterMixin('0.5rem')}
+        color: ${({ theme }) => theme.blackPrimary};
+        font-size: ${({ theme }) => theme.fontSizexSmallRem};
+        font-family: ${({ theme }) => theme.typographyEmphasis};
+    }
+    
     div.todo-data-container {
-        ${flexAlignCenterMixin('1rem')}
+        ${flexColumnMixin('0.5rem')}
+        
         flex-grow: 1;
+        
+        @media ${devicesMinWidth.tablet} {
+            flex-direction: row;
+            ${flexAlignCenterMixin('1rem')}
+        }
     }
 `
 

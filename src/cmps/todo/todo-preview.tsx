@@ -3,10 +3,11 @@ import { FiCheckSquare, FiSquare } from "react-icons/fi"
 import { FaTimes } from "react-icons/fa"
 import equal from "fast-deep-equal"
 import { Todo } from "../../models/todo/todo"
-import { flexAlignCenterMixin } from "../../styles/mixins/flex-mixins"
-import { capitalFirstLetter } from "../../styles/mixins/text-mixins"
 import { dateFromStringFormatter } from "../../utils/date-from-string-formatter"
 import { TodoWeather } from "./todo-weather"
+import { flexAlignCenterMixin } from "../../styles/mixins/flex-mixins"
+import { capitalFirstLetter } from "../../styles/mixins/text-mixins"
+import { devicesMinWidth } from "../../styles/media-queries/devices"
 
 
 // export function TodoPreview({ todo, onEditTodoText, onToggleIsDone, onRemoveTodo }: Props) {
@@ -85,9 +86,9 @@ const StyledTodoPreview = styled.article`
         background-color: ${({ theme }) => theme.whitePrimary};
     }
 
-    &:hover button.remove-button {
+    /* &:hover button.remove-button {
         ${flexAlignCenterMixin()}
-    }
+    } */
 
     div.date {
         grid-column: 1/-1;
@@ -121,11 +122,14 @@ const StyledTodoPreview = styled.article`
         grid-row: 2/3;
         justify-self: end;
 
-        display: none;
         cursor: pointer;
         border: none;
         background-color: transparent;
         color: ${({ theme }) => theme.blackLighter};
+        
+        @media ${devicesMinWidth.tablet} {
+            display: none;
+        }
     }
 
     span.location {

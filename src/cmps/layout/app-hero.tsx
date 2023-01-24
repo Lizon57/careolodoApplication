@@ -24,7 +24,7 @@ export function AppHero() {
                     <p>So what are you waiting up for?</p>
                 </div>
 
-                <Button text="Explore todos" navigateTo="/collection" />
+                <Button text="Explore todos" navigateTo="/user-todo" />
             </div>
         </StyledAppHero>
     )

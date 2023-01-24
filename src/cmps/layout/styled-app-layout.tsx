@@ -10,6 +10,8 @@ export const StyledAppLayout = styled.div`
   main {
     grid-column: 2/3;
     grid-row: 2/3;
+
+    padding-block-end: ${({ theme }) => theme.spaceBlockRegularRem};
   }
   
   footer {
