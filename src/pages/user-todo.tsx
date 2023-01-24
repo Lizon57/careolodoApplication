@@ -12,7 +12,7 @@ import { todoService } from '../services/todo-service'
 
 
 
-export function Collections() {
+export function UserTodo() {
     const [todos, setTodos] = useState<Todo[]>([])
     const [completeTodoCounter, setCompleteTodoCounter] = useState<number>()
     const [isLoading, setIsLoading] = useState(true)
@@ -75,14 +75,15 @@ export function Collections() {
             <section className="">
                 <MainTitle text="My todos" />
                 <p className="todo-stat">
-                    {completeTodoCounter} completed todos out of {todos.length} ({((completeTodoCounter || 0) / todos.length * 100).toFixed(0)}%)
+                    {completeTodoCounter} completed todos out of {todos.length} ({(((completeTodoCounter || 0) / todos.length * 100) || 0).toFixed(0)}%)
                 </p>
             </section>
 
             {errorMessage && <ErrorMessage error={errorMessage} />}
             {(!errorMessage && isLoading) && <Loader />}
             {(!errorMessage && !isLoading) &&
-                <section>
+                (todos.length
+                ? <section>
                     {todos.map(todo => <TodoPreview
                         key={todo.id}
                         todo={todo}
@@ -90,6 +91,9 @@ export function Collections() {
                         onRemoveTodo={onRemoveTodo}
                     />)}
                 </section>
+                : <div className="no-todos-indicator">
+                    Yay! you have 0 todos on list. Time to sleep! (or is it?)
+                </div>)
             }
 
             <TodoAdd onTodoAdd={onTodoAdd} />
@@ -102,6 +106,11 @@ const StyledCollection = styled.main`
     ${flexColumnMixin('1.5rem')}
 
     p.todo-stat {
+        font-family: ${({ theme }) => theme.typographyEmphasis};
+    }
+    
+    div.no-todos-indicator{
+        font-size: ${({ theme }) => theme.fontSizexxxLargeRem};
         font-family: ${({ theme }) => theme.typographyEmphasis};
     }
 `

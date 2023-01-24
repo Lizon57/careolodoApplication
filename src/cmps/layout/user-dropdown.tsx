@@ -41,8 +41,7 @@ function UserDropdown({ signOut }: any) {
 
                 <div className={'dropdown-content' + (isOpen ? ' open' : '')} ref={elDropdown}>
                     <h3>Hello {loggedUser.username || 'User'}</h3>
-                    {/* <Link to={`/edit-profile`} onClick={onToggleDropdown}>Edit profile</Link> */}
-                    <Link to={`/collections`} onClick={onToggleDropdown}>My todos</Link>
+                    <Link to={`/user-todo`} onClick={onToggleDropdown}>My todos</Link>
                     <Button text="Logout" onClick={onLogoutUser} isSecondary />
                 </div>
             </div>

@@ -16,12 +16,15 @@ export function AppHero() {
         <StyledAppHero>
             <div className="logged-user-hero-container">
                 <MainTitle text={`Welcome back ${loggedUser?.username || 'User'}`} />
+
                 <div className="user-message">
                     <p>We are glad and happy to see you again here on Careolodo.</p>
-                    <p>Many thing here has been changed at the last days. We now support todo collections. It means you don't need to mess up with only one todo list as the good old days, you can have HOW MANY COLLECTIONS AS YOU WANT.</p>
+                    <p>Life on the 21<sup>th</sup> century can be pretty harsh. You just MUST take care of a lot of things! and this is just why you come back here, isn't you?</p>
+                    <p>With Careolodo you can manage you'r todo list on the easiest way.</p>
                     <p>So what are you waiting up for?</p>
                 </div>
-                <Button text="Create new collection" navigateTo="/collection" />
+
+                <Button text="Explore todos" navigateTo="/collection" />
             </div>
         </StyledAppHero>
     )

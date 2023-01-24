@@ -1,13 +1,13 @@
 import { makeId } from "../utils/make-id"
 import { HomePage } from "../pages/home-page"
-import { Collections } from "../pages/collection"
+import { UserTodo } from "../pages/user-todo"
 
 
 export const routes = [
     {
         id: makeId(),
-        path: 'collections',
-        element: Collections
+        path: 'user-todo',
+        element: UserTodo
     },
     {
         id: makeId(),
